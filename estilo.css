@@ -79,6 +79,7 @@
     margin:0 0 1% 0;
     padding: 1.25%;
     box-sizing: border-box;
+    /* display:flex; */
     
   }
   .statusbox{
