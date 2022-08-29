@@ -20,6 +20,7 @@ function perguntarNome() {
  }
  function estouaqui() {
     console.log('...')
+    
  }
  function desconectei() {
     console.log('Cai!!')
@@ -53,26 +54,24 @@ function PrimeirasMsgs(resposta) {
 function verificacaoTipo(elemento) {
 
     let tipo = elemento.type
+    let para = elemento.to
     if(tipo === "status"){
         chat.innerHTML = chat.innerHTML +`<div class="boxChat statusbox escopoStatus "><span class="timer">(${elemento.time})</span> <span class="negrito">${elemento.from}</span> ${elemento.text}</div>`
         let esseDeveSerVisto = document.querySelector(".escopoStatus")
         esseDeveSerVisto.scrollIntoView()
-        console.log(esseDeveSerVisto.classList)
         esseDeveSerVisto.classList.remove("escopoStatus")
     }
     else if(tipo === "message"){
         chat.innerHTML = chat.innerHTML +`<div class="boxChat messagebox escopoMessage"><span class="timer">(${elemento.time})</span> <span class="negrito">${elemento.from}</span> para <span class="negrito">${elemento.to}</span>: ${elemento.text}</div>`
         let esseDeveSerVisto = document.querySelector(".escopoMessage")
         esseDeveSerVisto.scrollIntoView()
-        console.log(esseDeveSerVisto.classList)
         esseDeveSerVisto.classList.remove("escopoMessage")
         
     }
-    else if(tipo === "private_message"){
-        chat.innerHTML = chat.innerHTML + `<div class="boxChat privatebox escopoPrivate"><span class="timer">(${elemento.time})</span> <span class="negrito">${elemento.from}</span> reservadamente para <span class="negrito">${elemento.to}</span>: ${elemento.text}  `
+    else if(tipo === "private_message" && (para === nomeDigitado || para === "Todos" ) ){
+        chat.innerHTML = chat.innerHTML + `<div class="boxChat privatebox escopoPrivate "><span class="timer">(${elemento.time})</span> <span class="negrito">${elemento.from}</span> reservadamente para <span class="negrito">${elemento.to}</span>: ${elemento.text}  `
         let esseDeveSerVisto = document.querySelector(".escopoPrivate")
         esseDeveSerVisto.scrollIntoView()
-        console.log(esseDeveSerVisto.classList)
         esseDeveSerVisto.classList.remove("escopoPrivate")
         
     }
@@ -82,7 +81,7 @@ function RequisicaoChat() {
     promessaAtualizarmsgs.then(atualizaChat)
     promessaAtualizarmsgs.catch()
 }
-function atualizaChat(resposta) {
+function atualizaChat(resposta) {                
     let arrayNovo = resposta.data
     arrayNovo.forEach(objetoNovo => {
         if(JSON.stringify(objetoNovo) === JSON.stringify(ultimamsg)){
@@ -99,22 +98,24 @@ function atualizaChat(resposta) {
 
     
 }
+function enviarMsg() {
+  let caixademsg = document.querySelector("input")
+  let objetoDeEnvio = {
+	from: `${nomeDigitado}`,
+	to: "Todos",
+	text: `${caixademsg.value}`,
+	type: "message" 
+    }
+    caixademsg.value =""
+    reenviar(objetoDeEnvio)
 
-let teste1=[{name:"tevos"},{name:"hermat"},{name:"pimba"},{name:"chachac"}]
-// let teste2=[{name:"pimba"},{name:"chachac"},{name:"mao"},{name:"vacilao"}]
-// ultimamsg= teste1[3]
+}
+function reenviar(objeto) {
+    let promessaEnviarMsg = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages",objeto)
+    promessaEnviarMsg.then(RequisicaoChat)
+    promessaEnviarMsg.catch(relogar)
+}
 
-// let indexMarcador;
-// teste2.forEach(checaseevelho)
-
-// for(let e=indexMarcador + 1;e < 4;e++){
-//     console.log(teste2[e])
-    // verificacaoTipo(teste2[e])
-// }
-
-// function checaseevelho(elemento) {
-//     if(JSON.stringify(ultimamsg) === JSON.stringify(elemento) ){
-//        let indexdoultimo = teste2.indexOf(elemento)
-//        indexMarcador = indexdoultimo
-//     }
-// }
+function relogar() {
+    window.location.reload()
+}
