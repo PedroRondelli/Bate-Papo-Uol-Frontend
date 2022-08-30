@@ -62,14 +62,14 @@ function verificacaoTipo(elemento) {
         esseDeveSerVisto.classList.remove("escopoStatus")
     }
     else if(tipo === "message"){
-        chat.innerHTML = chat.innerHTML +`<div class="boxChat messagebox escopoMessage"><span class="timer">(${elemento.time})</span> <span class="negrito">${elemento.from}</span> para <span class="negrito">${elemento.to}</span>: ${elemento.text}</div>`
+        chat.innerHTML = chat.innerHTML +`<div class="boxChat messagebox escopoMessage"><span class="timer">(${elemento.time})</span> <span class="negrito">${elemento.from}</span> para <span class="negrito">${elemento.to}</span>: <span class="text">${elemento.text}</span></div>`
         let esseDeveSerVisto = document.querySelector(".escopoMessage")
         esseDeveSerVisto.scrollIntoView()
         esseDeveSerVisto.classList.remove("escopoMessage")
         
     }
     else if(tipo === "private_message" && (para === nomeDigitado || para === "Todos" ) ){
-        chat.innerHTML = chat.innerHTML + `<div class="boxChat privatebox escopoPrivate "><span class="timer">(${elemento.time})</span> <span class="negrito">${elemento.from}</span> reservadamente para <span class="negrito">${elemento.to}</span>: ${elemento.text}  `
+        chat.innerHTML = chat.innerHTML + `<div class="boxChat privatebox escopoPrivate "><span class="timer">(${elemento.time})</span> <span class="negrito">${elemento.from}</span> reservadamente para <span class="negrito">${elemento.to}</span>: ${elemento.text} `
         let esseDeveSerVisto = document.querySelector(".escopoPrivate")
         esseDeveSerVisto.scrollIntoView()
         esseDeveSerVisto.classList.remove("escopoPrivate")

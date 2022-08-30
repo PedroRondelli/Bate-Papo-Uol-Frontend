@@ -101,4 +101,6 @@
   .texto{
 font-weight: 400;
   }
-  
+.text{
+  overflow-wrap: break-word;
+}
